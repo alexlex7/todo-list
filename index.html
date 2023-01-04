@@ -26,11 +26,8 @@
       .container {
         position: relative;
         width: 600px;
-        /* margin: 0 auto; */
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
-        /* box-shadow: rgb(0 0 0 / 20%) 0px 5px 5px -3px, rgb(0 0 0 / 14%) 0px 8px 10px 1px,
-          rgb(0 0 0 / 12%) 0px 3px 14px 2px; */
       }
 
       .title {
@@ -75,11 +72,18 @@
       <ul class="list" id="todo-list">
         <li class="list-item">
           <div><input type="checkbox" name="todo-checkbox" /> <span>First todo text</span></div>
-          <button type="button" name="delete-button">Delete</button>
+          <div>
+            <button type="button" name="edit-button">Edit</button>
+            <button type="button" name="delete-button">Delete</button>
+          </div>
         </li>
         <li class="list-item">
           <div><input type="checkbox" name="todo-checkbox" /> <span>Second todo text</span></div>
-          <button type="button" name="delete-button">Delete</button>
+
+          <div>
+            <button type="button" name="edit-button">Edit</button>
+            <button type="button" name="delete-button">Delete</button>
+          </div>
         </li>
       </ul>
       <button type="button" id="delete-list" class="delete-list-button">delete list</button>
@@ -100,8 +104,14 @@
           }
         }
         if (e.target?.name === 'delete-button') {
-          console.log(e.target);
-          e.target.parentElement.remove();
+          e.target.parentElement.parentElement.remove();
+        }
+        if (e.target?.name === 'edit-button') {
+          const todoTextElement = e.target.parentNode.parentNode.querySelector('span');
+          let newTodoText = prompt('Please edit your todo item', todoTextElement.innerHTML);
+          if (newTodoText !== null) {
+            todoTextElement.innerHTML = newTodoText;
+          }
         }
       });
 
