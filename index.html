@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do</title>
+    <style>
+      body {
+        height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #343434;
+        background-color: rgb(252, 252, 252);
+      }
+
+      button {
+        padding: 4px 8px;
+        cursor: pointer;
+        border: none;
+        background-color: #a7e6ff;
+        border-radius: 10px;
+      }
+      .container {
+        position: relative;
+        width: 600px;
+        /* margin: 0 auto; */
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        /* box-shadow: rgb(0 0 0 / 20%) 0px 5px 5px -3px, rgb(0 0 0 / 14%) 0px 8px 10px 1px,
+          rgb(0 0 0 / 12%) 0px 3px 14px 2px; */
+      }
+
+      .title {
+        background-color: #eeeeee;
+        margin: 0;
+        padding: 10px 0px 10px 40px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+
+      .list {
+        margin: 0;
+        padding-left: 0;
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+      }
+
+      .list-item {
+        padding: 7px 12px;
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #eeeeee;
+        border-top: none;
+        background-color: #ffffff;
+      }
+
+      .list-item-done {
+        text-decoration: line-through;
+      }
+
+      .delete-list-button {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h3 class="title">Todo list</h3>
+      <ul class="list" id="todo-list">
+        <li class="list-item">
+          <div><input type="checkbox" name="todo-checkbox" /> <span>First todo text</span></div>
+          <button type="button" name="delete-button">Delete</button>
+        </li>
+        <li class="list-item">
+          <div><input type="checkbox" name="todo-checkbox" /> <span>Second todo text</span></div>
+          <button type="button" name="delete-button">Delete</button>
+        </li>
+      </ul>
+      <button type="button" id="delete-list" class="delete-list-button">delete list</button>
+    </div>
+
+    <script>
+      const todoListElement = document.getElementById('todo-list');
+      const deleteListButton = document.getElementById('delete-list');
+
+      todoListElement.addEventListener('click', e => {
+        if (e.target?.name === 'todo-checkbox') {
+          const isChecked = e.target.checked;
+          if (isChecked) {
+            e.target.parentElement.classList.add('list-item-done');
+          }
+          if (!isChecked) {
+            e.target.parentElement.classList.remove('list-item-done');
+          }
+        }
+        if (e.target?.name === 'delete-button') {
+          console.log(e.target);
+          e.target.parentElement.remove();
+        }
+      });
+
+      deleteListButton.addEventListener('click', () => {
+        todoListElement.parentElement.remove();
+      });
+    </script>
+  </body>
+</html>
