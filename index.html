@@ -123,8 +123,8 @@
         }
       });
 
-      $('#delete-list-button').on('click', () => {
-        $('todo-list').parentElement.remove();
+      $('#delete-list-button').on('click', e => {
+        $(e.target.parentNode).remove();
       });
     </script>
   </body>
