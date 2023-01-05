@@ -71,14 +71,20 @@
       <h3 class="title">Todo list</h3>
       <ul class="list" id="todo-list">
         <li class="list-item">
-          <div><input type="checkbox" name="todo-checkbox" /> <span>First todo text</span></div>
+          <div>
+            <input type="checkbox" name="todo-checkbox" />
+            <span class="todo-text">First todo text</span>
+          </div>
           <div>
             <button type="button" name="edit-button">Edit</button>
             <button type="button" name="delete-button">Delete</button>
           </div>
         </li>
         <li class="list-item">
-          <div><input type="checkbox" name="todo-checkbox" /> <span>Second todo text</span></div>
+          <div>
+            <input type="checkbox" name="todo-checkbox" />
+            <span class="todo-text">Second todo text</span>
+          </div>
 
           <div>
             <button type="button" name="edit-button">Edit</button>
@@ -86,37 +92,39 @@
           </div>
         </li>
       </ul>
-      <button type="button" id="delete-list" class="delete-list-button">delete list</button>
+      <button type="button" id="delete-list-button" class="delete-list-button">delete list</button>
     </div>
 
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+      crossorigin="anonymous"
+    ></script>
     <script>
-      const todoListElement = document.getElementById('todo-list');
-      const deleteListButton = document.getElementById('delete-list');
-
-      todoListElement.addEventListener('click', e => {
+      $('#todo-list').on('click', e => {
         if (e.target?.name === 'todo-checkbox') {
-          const isChecked = e.target.checked;
+          const isChecked = $(e.target)[0].checked;
           if (isChecked) {
-            e.target.parentElement.classList.add('list-item-done');
+            $(e.target.parentElement).addClass('list-item-done');
           }
           if (!isChecked) {
-            e.target.parentElement.classList.remove('list-item-done');
+            $(e.target.parentElement).removeClass('list-item-done');
           }
         }
         if (e.target?.name === 'delete-button') {
-          e.target.parentElement.parentElement.remove();
+          $(e.target.parentElement.parentElement).remove();
         }
         if (e.target?.name === 'edit-button') {
-          const todoTextElement = e.target.parentNode.parentNode.querySelector('span');
-          let newTodoText = prompt('Please edit your todo item', todoTextElement.innerHTML);
+          const todoTextElement = $(e.target.parentNode.parentNode).find('.todo-text');
+          let newTodoText = prompt('Please edit your todo item', todoTextElement[0].innerHTML);
           if (newTodoText !== null) {
-            todoTextElement.innerHTML = newTodoText;
+            todoTextElement[0].innerHTML = newTodoText;
           }
         }
       });
 
-      deleteListButton.addEventListener('click', () => {
-        todoListElement.parentElement.remove();
+      $('#delete-list-button').on('click', () => {
+        $('todo-list').parentElement.remove();
       });
     </script>
   </body>
