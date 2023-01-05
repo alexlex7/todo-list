@@ -1,36 +1,53 @@
-// _#_#_#_#
-// #_#_#_#_
-// _#_#_#_#
-// #_#_#_#_
-// _#_#_#_#
-// #_#_#_#_
-// _#_#_#_#
-// #_#_#_#_
+function createRows(length) {
+  const rows = {
+    even: '',
+    odd: '',
+  };
 
-function chess(symbols, rows) {
-  const result = [];
-  let row = '';
-
-  for (let index = 0; index <= rows; index++) {
-    if (row.length === symbols) {
-      result.push(row);
-      row = '';
-    }
-
-    for (let i = 0; i < symbols; i++) {
-      const isEvenRow = index % 2 === 0;
-      const firstSymbol = isEvenRow ? '_' : '#';
-      const secondSymbol = isEvenRow ? '#' : '_';
-
-      if (i % 2 === 0) {
-        row += firstSymbol;
-      } else {
-        row += secondSymbol;
-      }
+  for (let i = 0; i < length; i++) {
+    if (i % 2 === 0) {
+      rows.even += '_';
+      rows.odd += '#';
+    } else {
+      rows.even += '#';
+      rows.odd += '_';
     }
   }
 
-  return result.join('\n');
+  return rows;
 }
 
-console.log(chess(8, 8));
+function createBoard(rowQuantity, rows) {
+  const board = [];
+
+  for (let i = 0; i < rowQuantity; i++) {
+    if (i % 2 === 0) {
+      board.push(rows.even);
+    } else {
+      board.push(rows.odd);
+    }
+  }
+  return board.join('\n');
+}
+
+function render(board) {
+  console.log(board);
+}
+
+function renderChessBoard(rowLength, numberOfRows) {
+  try {
+    const rowLengthNumber = Number(rowLength);
+    const numberOfRowsNumber = Number(numberOfRows);
+    if (rowLengthNumber < 1 || numberOfRowsNumber < 1) {
+      return '';
+    }
+
+    const rows = createRows(rowLength);
+    const board = createBoard(numberOfRowsNumber, rows);
+    render(board);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+renderChessBoard('7', 7);
