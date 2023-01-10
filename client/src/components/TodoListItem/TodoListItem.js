@@ -24,10 +24,15 @@ export default function TodoListItem({ item, listName }) {
       <ListItemButton disableGutters sx={{ display: 'flex', pr: 1 }}>
         <ListItemText
           primary={text}
-          sx={{
-            display: 'inline-flex',
-            flex: '1 0',
-          }}
+          sx={[
+            {
+              display: 'inline-flex',
+              flex: '1 0',
+            },
+            () => {
+              return isDone ? { textDecoration: 'line-through' } : null;
+            },
+          ]}
         />
         <Box
           component="span"

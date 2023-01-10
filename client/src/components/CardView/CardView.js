@@ -17,6 +17,10 @@ export default function CardView({ todoLists }) {
   return (
     <Grid container spacing={4} p={4}>
       {todoLists.map(({ items, id, listName }) => {
+        const sortedItems = [...items].sort((a, b) => {
+          return a.isDone === b.isDone ? 0 : a.isDone ? 1 : -1;
+        });
+
         return (
           <Grid item xs={12} sm={6} md={4} key={id}>
             <Card variant="outlined" sx={{ height: '330px' }}>
@@ -41,14 +45,14 @@ export default function CardView({ todoLists }) {
                         borderRadius: '0.375rem',
                       }}
                     >
-                      {items.length}
+                      {sortedItems.length}
                     </Typography>
                   </Box>
                 }
               />
               <CardContent sx={{ height: '268px', overflowY: 'scroll' }}>
                 <List>
-                  {items.map(({ id, text, isDone, expiringDate }) => {
+                  {sortedItems.map(({ id, text, isDone, expiringDate }) => {
                     const date = DateTime.fromFormat(expiringDate, 'dd MMM yyyy, T').toFormat(
                       'MMM dd',
                     );
@@ -66,7 +70,16 @@ export default function CardView({ todoLists }) {
                       >
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <Checkbox edge="start" checked={isDone} disableRipple />
-                          <Typography sx={{ typography: 'subtitle2' }}>{text}</Typography>
+                          <Typography
+                            sx={[
+                              { typography: 'subtitle2' },
+                              () => {
+                                return isDone ? { textDecoration: 'line-through' } : null;
+                              },
+                            ]}
+                          >
+                            {text}
+                          </Typography>
                         </Box>
                         <Box
                           component="span"
