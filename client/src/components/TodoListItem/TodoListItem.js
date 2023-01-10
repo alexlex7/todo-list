@@ -1,4 +1,3 @@
-import React from 'react';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import { ListItem, Checkbox, ListItemButton, ListItemText, Box } from '@mui/material';

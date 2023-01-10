@@ -28,7 +28,7 @@ export default function TodoList({ listName, items }) {
       }
     >
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {items.map(item => (
+        {items.map((item) => (
           <TodoListItem key={item.id} item={item} listName={listName} />
         ))}
       </Collapse>
@@ -45,6 +45,6 @@ TodoList.propTypes = {
       isDone: PropTypes.bool,
       created: PropTypes.string.isRequired,
       expiringDate: PropTypes.string,
-    }).isRequired
+    }).isRequired,
   ).isRequired,
 };

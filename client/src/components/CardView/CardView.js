@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
+import PropTypes from 'prop-types';
 import {
   List,
   ListItem,
-  ListSubheader,
   Checkbox,
   Card,
   CardContent,
@@ -50,7 +50,7 @@ export default function CardView({ todoLists }) {
                 <List>
                   {items.map(({ id, text, isDone, expiringDate }) => {
                     const date = DateTime.fromFormat(expiringDate, 'dd MMM yyyy, T').toFormat(
-                      'MMM dd'
+                      'MMM dd',
                     );
                     return (
                       <ListItem
@@ -87,3 +87,7 @@ export default function CardView({ todoLists }) {
     </Grid>
   );
 }
+
+CardView.propTypes = {
+  todoLists: PropTypes.array.isRequired,
+};

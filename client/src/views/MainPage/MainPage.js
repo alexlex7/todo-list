@@ -16,7 +16,7 @@ export default function MainPage() {
         {
           id: 1,
           text: 'Join Infinity community for help',
-          isDone: false,
+          isDone: true,
           created: '8 Jan 2023, 19:42',
           expiringDate: '29 Jan 2023, 19:42',
         },
@@ -30,7 +30,7 @@ export default function MainPage() {
         {
           id: 3,
           text: 'Add new tasks',
-          isDone: false,
+          isDone: true,
           created: '7 Jan 2023, 19:42',
           expiringDate: '28 Jan 2023, 19:42',
         },
@@ -64,7 +64,7 @@ export default function MainPage() {
         {
           id: 7,
           text: 'Use grouping options to group items by labels, members or state',
-          isDone: false,
+          isDone: true,
           created: '7 Jan 2023, 19:42',
           expiringDate: '28 Jan 2023, 19:42',
         },
@@ -125,7 +125,7 @@ export default function MainPage() {
         {
           id: 6,
           text: 'Add some tabs to a folder if you want to see the same items in a different way',
-          isDone: false,
+          isDone: true,
           created: '8 Jan 2023, 19:42',
           expiringDate: '29 Jan 2023, 19:42',
         },
@@ -139,7 +139,7 @@ export default function MainPage() {
         {
           id: 8,
           text: 'Filter items you don&quot;t want to see',
-          isDone: false,
+          isDone: true,
           created: '5 Jan 2023, 19:42',
           expiringDate: '27 Jan 2023, 19:42',
         },
