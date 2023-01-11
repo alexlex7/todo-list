@@ -34,7 +34,11 @@ export default function CardView({ todoLists }) {
                     }}
                   >
                     <Typography
-                      sx={{ bgcolor: 'secondary.light', borderRadius: '11px', padding: '3px 7px' }}
+                      sx={{
+                        bgcolor: 'secondary.light',
+                        borderRadius: '11px',
+                        padding: '3px 7px',
+                      }}
                     >
                       {listName}
                     </Typography>
@@ -83,7 +87,12 @@ export default function CardView({ todoLists }) {
                         </Box>
                         <Box
                           component="span"
-                          sx={{ display: 'flex', alignItems: 'center', ml: 3, typography: 'body2' }}
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            ml: 3,
+                            typography: 'body2',
+                          }}
                         >
                           <CalendarMonthIcon fontSize="small" />
                           {date}th

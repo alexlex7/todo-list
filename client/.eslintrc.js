@@ -9,14 +9,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended',
-    'plugin:jsx-a11y/strict',
-    'plugin:react/jsx-runtime',
-  ],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -24,7 +17,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'jsx-a11y', 'prettier'],
+  plugins: ['react', 'react-hooks', 'prettier'],
   rules: {
     'react-hooks/exhaustive-deps': 'error',
     'no-var': 'error',
@@ -33,6 +26,7 @@ module.exports = {
     radix: 'error',
     'space-before-blocks': 'error',
     'import/prefer-default-export': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
   overrides: [
     {
