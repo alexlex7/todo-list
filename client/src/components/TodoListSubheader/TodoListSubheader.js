@@ -55,5 +55,5 @@ TodoListSubheader.propTypes = {
   handelExpand: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   listName: PropTypes.string.isRequired,
-  quantityOfTodo: PropTypes.string.isRequired,
+  quantityOfTodo: PropTypes.number.isRequired,
 };

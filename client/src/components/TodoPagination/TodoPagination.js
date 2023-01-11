@@ -3,18 +3,23 @@ import PropTypes from 'prop-types';
 import service from '../../services';
 import { Box, Pagination } from '@mui/material';
 
-const pageSize = 3;
+// const pageSize = 3;
 
-export default function TodoPagination({ setTodos }) {
+export default function TodoPagination({ setTodos, pageSize }) {
   const [count, setCount] = useState(0);
   const [from, setFrom] = useState(0);
-  const [to, setTo] = useState(pageSize);
+  const [to, setTo] = useState(0);
+
+  useEffect(() => {
+    setTo(pageSize);
+    setCount(0);
+    setFrom(0);
+  }, [pageSize]);
 
   useEffect(() => {
     service.getData({ count, from, to }).then((response) => {
       setCount(response.count);
       setTodos(response.data);
-      console.log(response);
     });
   }, [count, from, to, setTodos]);
 
@@ -26,6 +31,7 @@ export default function TodoPagination({ setTodos }) {
   };
 
   const paginationCount = Math.ceil(count / pageSize);
+  console.log(paginationCount);
   return (
     <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
       <Pagination count={paginationCount} onChange={handlePageChange} />
@@ -35,4 +41,5 @@ export default function TodoPagination({ setTodos }) {
 
 TodoPagination.propTypes = {
   setTodos: PropTypes.func.isRequired,
+  pageSize: PropTypes.number.isRequired,
 };
