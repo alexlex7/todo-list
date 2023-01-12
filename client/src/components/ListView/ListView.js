@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import TodoList from '../TodoList/TodoList';
 import { Box, List, ListItem } from '@mui/material';

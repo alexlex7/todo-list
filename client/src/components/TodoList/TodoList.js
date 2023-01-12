@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import List from '@mui/material/List';
 import Collapse from '@mui/material/Collapse';
@@ -7,6 +7,14 @@ import TodoListSubheader from '../TodoListSubheader/TodoListSubheader';
 
 export default function TodoList({ listName, items }) {
   const [open, setOpen] = useState(true);
+
+  const sortedItems = useMemo(
+    () =>
+      [...items].sort((a, b) => {
+        return a.isDone === b.isDone ? 0 : a.isDone ? 1 : -1;
+      }),
+    [items],
+  );
 
   const handleClick = () => {
     setOpen(!open);
@@ -28,7 +36,7 @@ export default function TodoList({ listName, items }) {
       }
     >
       <Collapse in={open} timeout="auto" unmountOnExit>
-        {items.map(item => (
+        {sortedItems.map((item) => (
           <TodoListItem key={item.id} item={item} listName={listName} />
         ))}
       </Collapse>
@@ -45,6 +53,6 @@ TodoList.propTypes = {
       isDone: PropTypes.bool,
       created: PropTypes.string.isRequired,
       expiringDate: PropTypes.string,
-    }).isRequired
+    }).isRequired,
   ).isRequired,
 };
