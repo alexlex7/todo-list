@@ -3,7 +3,7 @@ import List from '@mui/material/List';
 import Collapse from '@mui/material/Collapse';
 import TodoListItem from '../TodoListItem/TodoListItem';
 import TodoListSubheader from '../TodoListSubheader/TodoListSubheader';
-import { Todo } from '../../data/todos';
+import { Todo } from '../../interfaces';
 
 interface Props {
   listName: string;

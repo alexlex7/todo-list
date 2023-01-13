@@ -6,7 +6,7 @@ import ViewSwitcher from '../../components/ViewSwitcher/ViewSwitcher';
 import ListView from '../../components/ListView/ListView';
 import CardView from '../../components/CardView/CardView';
 import TodoPagination from '../../components/TodoPagination/TodoPagination';
-import { TodoLists } from '../../data/todos';
+import { TodoLists } from '../../interfaces';
 
 export default function MainPage() {
   const [view, setView] = useState('card');

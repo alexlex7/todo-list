@@ -1,4 +1,5 @@
-import { todoLists, TodoLists } from '../data/todos';
+import { TodoLists } from '../interfaces';
+import { todoLists } from '../data/todos';
 
 interface Args {
   from: number;

@@ -1,6 +1,6 @@
 import TodoList from '../TodoList/TodoList';
 import { Box, List, ListItem } from '@mui/material';
-import { TodoLists } from '../../data/todos';
+import { TodoLists } from '../../interfaces';
 
 interface Props {
   todoLists: TodoLists[];

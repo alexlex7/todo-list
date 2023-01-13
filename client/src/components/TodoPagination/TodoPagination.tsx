@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import service from '../../services';
 import { Box, Pagination } from '@mui/material';
-import { TodoLists } from '../../data/todos';
+import { TodoLists } from '../../interfaces';
 
 interface Props {
   setTodos(data: TodoLists[]): void;

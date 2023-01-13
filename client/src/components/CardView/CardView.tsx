@@ -11,7 +11,7 @@ import {
   CardHeader,
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { TodoLists } from '../../data/todos';
+import { TodoLists } from '../../interfaces';
 
 interface Props {
   todoLists: TodoLists[];

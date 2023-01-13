@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { ListItem, Checkbox, ListItemButton, ListItemText, Box } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
-import { Todo } from '../../data/todos';
+import { Todo } from '../../interfaces';
 
 interface Props {
   listName: string;
