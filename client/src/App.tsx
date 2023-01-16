@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CreateTodoListPage from './views/CreateTodoListPage/CreateTodoListPage';
 import MainPage from './views/MainPage/MainPage';
 import NotFoundPage from './views/NotFoundPage/NotFoundPage';
-import './App.css';
 
 const router = createBrowserRouter([
   {

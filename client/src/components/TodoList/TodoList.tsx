@@ -1,11 +1,16 @@
 import { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import List from '@mui/material/List';
 import Collapse from '@mui/material/Collapse';
 import TodoListItem from '../TodoListItem/TodoListItem';
 import TodoListSubheader from '../TodoListSubheader/TodoListSubheader';
+import { Todo } from '../../interfaces';
 
-export default function TodoList({ listName, items }) {
+interface Props {
+  listName: string;
+  items: Todo[];
+}
+
+export default function TodoList({ listName, items }: Props) {
   const [open, setOpen] = useState(true);
 
   const sortedItems = useMemo(
@@ -43,16 +48,3 @@ export default function TodoList({ listName, items }) {
     </List>
   );
 }
-
-TodoList.propTypes = {
-  listName: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired,
-      isDone: PropTypes.bool,
-      created: PropTypes.string.isRequired,
-      expiringDate: PropTypes.string,
-    }).isRequired,
-  ).isRequired,
-};

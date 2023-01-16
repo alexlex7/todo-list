@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import service from '../../services';
 import { Box, Pagination } from '@mui/material';
+import { TodoLists } from '../../interfaces';
 
-// const pageSize = 3;
+interface Props {
+  setTodos(data: TodoLists[]): void;
+  pageSize: number;
+}
 
-export default function TodoPagination({ setTodos, pageSize }) {
+export default function TodoPagination({ setTodos, pageSize }: Props) {
   const [count, setCount] = useState(0);
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(0);
@@ -17,13 +20,13 @@ export default function TodoPagination({ setTodos, pageSize }) {
   }, [pageSize]);
 
   useEffect(() => {
-    service.getData({ count, from, to }).then((response) => {
+    service.getData({ from, to }).then((response) => {
       setCount(response.count);
       setTodos(response.data);
     });
   }, [count, from, to, setTodos]);
 
-  const handlePageChange = (event, page) => {
+  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number): void => {
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
     setFrom(from);
@@ -31,15 +34,9 @@ export default function TodoPagination({ setTodos, pageSize }) {
   };
 
   const paginationCount = Math.ceil(count / pageSize);
-  console.log(paginationCount);
   return (
     <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
       <Pagination count={paginationCount} onChange={handlePageChange} />
     </Box>
   );
 }
-
-TodoPagination.propTypes = {
-  setTodos: PropTypes.func.isRequired,
-  pageSize: PropTypes.number.isRequired,
-};

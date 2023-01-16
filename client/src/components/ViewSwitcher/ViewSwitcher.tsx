@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import {
   ToggleButton,
   ToggleButtonGroup,
@@ -8,9 +7,22 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 import { GridView, List } from '@mui/icons-material';
 
-export default function ViewSwitcher({ view, handleChangeView, setItemsOnPage, itemsOnPage }) {
+interface Props {
+  view: string;
+  handleChangeView(event: React.MouseEvent<HTMLElement>, nextView: string): void;
+  itemsOnPage: string;
+  setItemsOnPage(event: SelectChangeEvent): void;
+}
+
+export default function ViewSwitcher({
+  view,
+  handleChangeView,
+  setItemsOnPage,
+  itemsOnPage,
+}: Props) {
   return (
     <>
       <Box sx={{ minWidth: 100, mr: 2 }}>
@@ -66,10 +78,3 @@ export default function ViewSwitcher({ view, handleChangeView, setItemsOnPage, i
     </>
   );
 }
-
-ViewSwitcher.propTypes = {
-  view: PropTypes.string.isRequired,
-  handleChangeView: PropTypes.func.isRequired,
-  itemsOnPage: PropTypes.number.isRequired,
-  setItemsOnPage: PropTypes.func.isRequired,
-};

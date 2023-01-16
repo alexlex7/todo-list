@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon';
-import PropTypes from 'prop-types';
 import {
   List,
   ListItem,
@@ -12,8 +11,13 @@ import {
   CardHeader,
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { TodoLists } from '../../interfaces';
 
-export default function CardView({ todoLists }) {
+interface Props {
+  todoLists: TodoLists[];
+}
+
+export default function CardView({ todoLists }: Props) {
   return (
     <Grid container spacing={4} p={4}>
       {todoLists.map(({ items, id, listName }) => {
@@ -109,7 +113,3 @@ export default function CardView({ todoLists }) {
     </Grid>
   );
 }
-
-CardView.propTypes = {
-  todoLists: PropTypes.array.isRequired,
-};

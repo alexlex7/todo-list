@@ -1,8 +1,19 @@
-import PropTypes from 'prop-types';
 import { ListSubheader, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-export default function TodoListSubheader({ handelExpand, isOpen, listName, quantityOfTodo }) {
+interface Props {
+  handelExpand(): void;
+  isOpen: boolean;
+  listName: string;
+  quantityOfTodo: number;
+}
+
+export default function TodoListSubheader({
+  handelExpand,
+  isOpen,
+  listName,
+  quantityOfTodo,
+}: Props) {
   return (
     <ListSubheader
       onClick={handelExpand}
@@ -50,10 +61,3 @@ export default function TodoListSubheader({ handelExpand, isOpen, listName, quan
     </ListSubheader>
   );
 }
-
-TodoListSubheader.propTypes = {
-  handelExpand: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  listName: PropTypes.string.isRequired,
-  quantityOfTodo: PropTypes.number.isRequired,
-};

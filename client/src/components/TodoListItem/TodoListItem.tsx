@@ -1,9 +1,15 @@
 import { DateTime } from 'luxon';
-import PropTypes from 'prop-types';
 import { ListItem, Checkbox, ListItemButton, ListItemText, Box } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
-export default function TodoListItem({ item, listName }) {
+import { Todo } from '../../interfaces';
+
+interface Props {
+  listName: string;
+  item: Todo;
+}
+
+export default function TodoListItem({ item, listName }: Props) {
   const { id, isDone, text, expiringDate } = item;
   const date = DateTime.fromFormat(expiringDate, 'dd MMM yyyy, T').toFormat('MMM dd');
   return (
@@ -48,14 +54,3 @@ export default function TodoListItem({ item, listName }) {
     </ListItem>
   );
 }
-
-TodoListItem.propTypes = {
-  listName: PropTypes.string.isRequired,
-  item: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    isDone: PropTypes.bool,
-    created: PropTypes.string.isRequired,
-    expiringDate: PropTypes.string,
-  }).isRequired,
-};

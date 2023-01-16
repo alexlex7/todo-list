@@ -1,8 +1,12 @@
-import PropTypes from 'prop-types';
 import TodoList from '../TodoList/TodoList';
 import { Box, List, ListItem } from '@mui/material';
+import { TodoLists } from '../../interfaces';
 
-export default function ListView({ todoLists }) {
+interface Props {
+  todoLists: TodoLists[];
+}
+
+export default function ListView({ todoLists }: Props) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <List
@@ -23,7 +27,3 @@ export default function ListView({ todoLists }) {
     </Box>
   );
 }
-
-ListView.propTypes = {
-  todoLists: PropTypes.array.isRequired,
-};

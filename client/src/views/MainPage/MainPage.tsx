@@ -6,18 +6,19 @@ import ViewSwitcher from '../../components/ViewSwitcher/ViewSwitcher';
 import ListView from '../../components/ListView/ListView';
 import CardView from '../../components/CardView/CardView';
 import TodoPagination from '../../components/TodoPagination/TodoPagination';
+import { TodoLists } from '../../interfaces';
 
 export default function MainPage() {
   const [view, setView] = useState('card');
   const [itemsOnPage, setItemsOnPage] = useState(3);
-  const [todoLists, setTodoLists] = useState([]);
+  const [todoLists, setTodoLists] = useState<TodoLists[] | []>([]);
 
-  function handleChange(_, nextView) {
+  function handleChange(event: React.MouseEvent<HTMLElement>, nextView: string) {
     setView(nextView);
   }
 
   const handleSetTodos = useCallback(
-    (todos) => {
+    (todos: TodoLists[]) => {
       setTodoLists(todos);
     },
     [setTodoLists],
@@ -39,9 +40,9 @@ export default function MainPage() {
             view={view}
             handleChangeView={handleChange}
             setItemsOnPage={(event) => {
-              setItemsOnPage(event.target.value);
+              setItemsOnPage(Number(event.target.value));
             }}
-            itemsOnPage={itemsOnPage}
+            itemsOnPage={String(itemsOnPage)}
           />
         </Container>
       </Box>
