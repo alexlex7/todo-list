@@ -11,3 +11,5 @@ export interface TodoLists {
   listName: string;
   items: Todo[];
 }
+
+export type ViewType = 'card' | 'list';

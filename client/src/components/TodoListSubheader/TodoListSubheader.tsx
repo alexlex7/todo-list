@@ -1,11 +1,14 @@
-import { ListSubheader, Box } from '@mui/material';
+import { ListSubheader, Box, Typography, Link } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Link as RouterLink, useParams } from 'react-router-dom';
+// import LinkBehavior from '../LinkBehavior/LinkBehavior';
 
 interface Props {
   handelExpand(): void;
   isOpen: boolean;
   listName: string;
   quantityOfTodo: number;
+  listId: number;
 }
 
 export default function TodoListSubheader({
@@ -13,7 +16,9 @@ export default function TodoListSubheader({
   isOpen,
   listName,
   quantityOfTodo,
+  listId,
 }: Props) {
+  const { id } = useParams();
   return (
     <ListSubheader
       onClick={handelExpand}
@@ -48,15 +53,27 @@ export default function TodoListSubheader({
           {listName}
         </Box>
       </Box>
-      <Box
-        component="span"
-        sx={{
-          bgcolor: 'common.white',
-          padding: '2px 8px',
-          borderRadius: '0.375rem',
-        }}
-      >
-        {quantityOfTodo}
+      <Box display="flex" alignItems="center" columnGap={2}>
+        {!id && (
+          <Link
+            p="6px 8px"
+            color="secondary"
+            component={RouterLink}
+            to={`${listId}`}
+            sx={{ textDecoration: 'none' }}
+          >
+            Open list
+          </Link>
+        )}
+        <Typography
+          sx={{
+            bgcolor: 'common.white',
+            padding: '2px 8px',
+            borderRadius: '0.375rem',
+          }}
+        >
+          {quantityOfTodo}
+        </Typography>
       </Box>
     </ListSubheader>
   );

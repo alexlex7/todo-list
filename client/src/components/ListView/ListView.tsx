@@ -1,5 +1,6 @@
 import TodoList from '../TodoList/TodoList';
-import { Box, List, ListItem } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Box, List, ListItem, ListItemButton } from '@mui/material';
 import { TodoLists } from '../../interfaces';
 
 interface Props {
@@ -20,7 +21,7 @@ export default function ListView({ todoLists }: Props) {
       >
         {todoLists.map(({ id, listName, items }) => (
           <ListItem key={id}>
-            <TodoList listName={listName} items={items} />
+            <TodoList listName={listName} items={items} id={id} />
           </ListItem>
         ))}
       </List>
