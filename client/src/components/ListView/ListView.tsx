@@ -1,6 +1,5 @@
 import TodoList from '../TodoList/TodoList';
-import { Link } from 'react-router-dom';
-import { Box, List, ListItem, ListItemButton } from '@mui/material';
+import { Box, List, ListItem } from '@mui/material';
 import { TodoLists } from '../../interfaces';
 
 interface Props {

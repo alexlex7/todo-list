@@ -8,6 +8,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './index.css';
 import { CssBaseline } from '@mui/material';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const theme = createTheme({
   palette: {
@@ -43,8 +45,10 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
+      <LocalizationProvider dateAdapter={AdapterLuxon}>
+        <CssBaseline />
+        <App />
+      </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>,
 );
