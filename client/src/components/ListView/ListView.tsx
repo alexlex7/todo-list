@@ -20,7 +20,7 @@ export default function ListView({ todoLists }: Props) {
       >
         {todoLists.map(({ id, listName, items }) => (
           <ListItem key={id}>
-            <TodoList listName={listName} items={items} />
+            <TodoList listName={listName} items={items} id={id} />
           </ListItem>
         ))}
       </List>

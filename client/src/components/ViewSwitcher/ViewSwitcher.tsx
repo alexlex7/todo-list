@@ -9,12 +9,13 @@ import {
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { GridView, List } from '@mui/icons-material';
+import { ViewType } from '../../interfaces';
 
 interface Props {
   view: string;
-  handleChangeView(event: React.MouseEvent<HTMLElement>, nextView: string): void;
+  handleChangeView(event: React.MouseEvent<HTMLElement, MouseEvent>, nextView: ViewType): void;
   itemsOnPage: string;
-  setItemsOnPage(event: SelectChangeEvent): void;
+  setItemsOnPage(event: SelectChangeEvent<string>): void;
 }
 
 export default function ViewSwitcher({
@@ -26,7 +27,7 @@ export default function ViewSwitcher({
   return (
     <>
       <Box sx={{ minWidth: 100, mr: 2 }}>
-        <FormControl fullWidth color="secondary" sx={{ m: 1 }} size="small">
+        <FormControl fullWidth sx={{ m: 1 }} size="small">
           <InputLabel id="demo-simple-select-label">Todo on page</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -47,31 +48,13 @@ export default function ViewSwitcher({
         exclusive
         onChange={handleChangeView}
         size="small"
-        color="secondary"
+        color="primary"
         sx={{ border: 'none' }}
       >
-        <ToggleButton
-          value="list"
-          aria-label="list"
-          sx={{
-            border: 'none',
-            '&.Mui-selected': {
-              bgcolor: 'common.white',
-            },
-          }}
-        >
+        <ToggleButton value="list" aria-label="list">
           <List />
         </ToggleButton>
-        <ToggleButton
-          value="card"
-          aria-label="card"
-          sx={{
-            border: 'none',
-            '&.Mui-selected': {
-              bgcolor: 'common.white',
-            },
-          }}
-        >
+        <ToggleButton value="card" aria-label="card">
           <GridView />
         </ToggleButton>
       </ToggleButtonGroup>

@@ -8,9 +8,10 @@ import { Todo } from '../../interfaces';
 interface Props {
   listName: string;
   items: Todo[];
+  id: number;
 }
 
-export default function TodoList({ listName, items }: Props) {
+export default function TodoList({ listName, items, id }: Props) {
   const [open, setOpen] = useState(true);
 
   const sortedItems = useMemo(
@@ -37,6 +38,7 @@ export default function TodoList({ listName, items }: Props) {
           isOpen={open}
           listName={listName}
           quantityOfTodo={items.length}
+          listId={id}
         />
       }
     >

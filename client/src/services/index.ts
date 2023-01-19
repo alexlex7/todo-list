@@ -13,6 +13,7 @@ interface Response {
 
 interface Service {
   getData: ({ from, to }: Args) => Promise<Response>;
+  getTodoListById: (id: number) => Promise<{ data: TodoLists }>;
 }
 
 const service: Service = {
@@ -23,6 +24,19 @@ const service: Service = {
         count: todoLists.length,
         data: data,
       });
+    });
+  },
+
+  getTodoListById: (id) => {
+    return new Promise((resolve, reject) => {
+      const data = todoLists.find((item) => item.id === id);
+      if (data) {
+        resolve({
+          data,
+        });
+      } else {
+        reject({ data: `Todo list with id: ${id} not found.` });
+      }
     });
   },
 };

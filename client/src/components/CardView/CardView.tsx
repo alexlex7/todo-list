@@ -9,7 +9,9 @@ import {
   Grid,
   Box,
   CardHeader,
+  CardActionArea,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { TodoLists } from '../../interfaces';
 
@@ -18,6 +20,11 @@ interface Props {
 }
 
 export default function CardView({ todoLists }: Props) {
+  const navigate = useNavigate();
+  function handleRedirect(listId: number) {
+    navigate(`${listId}`);
+  }
+
   return (
     <Grid container spacing={4} p={4}>
       {todoLists.map(({ items, id, listName }) => {
@@ -28,84 +35,88 @@ export default function CardView({ todoLists }: Props) {
         return (
           <Grid item xs={12} sm={6} md={4} key={id}>
             <Card variant="outlined" sx={{ height: '330px' }}>
-              <CardHeader
-                sx={{ bgcolor: 'grey.200' }}
-                title={
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Typography
+              <CardActionArea onClick={() => handleRedirect(id)}>
+                <CardHeader
+                  sx={{ bgcolor: 'grey.200' }}
+                  title={
+                    <Box
                       sx={{
-                        bgcolor: 'secondary.light',
-                        borderRadius: '11px',
-                        padding: '3px 7px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
                       }}
                     >
-                      {listName}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        bgcolor: 'common.white',
-                        padding: '2px 8px',
-                        borderRadius: '0.375rem',
-                      }}
-                    >
-                      {sortedItems.length}
-                    </Typography>
-                  </Box>
-                }
-              />
-              <CardContent sx={{ height: '268px', overflowY: 'scroll' }}>
-                <List>
-                  {sortedItems.map(({ id, text, isDone, expiringDate }) => {
-                    const date = DateTime.fromFormat(expiringDate, 'dd MMM yyyy, T').toFormat(
-                      'MMM dd',
-                    );
-                    return (
-                      <ListItem
-                        key={id}
+                      <Typography
                         sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'flex-start',
-                          rowGap: 0.5,
-                          borderBottom: '1px solid',
-                          borderBottomColor: 'grey.200',
+                          bgcolor: 'secondary.light',
+                          borderRadius: '11px',
+                          padding: '3px 7px',
                         }}
                       >
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Checkbox edge="start" checked={isDone} disableRipple />
-                          <Typography
-                            sx={[
-                              { typography: 'subtitle2' },
-                              () => {
-                                return isDone ? { textDecoration: 'line-through' } : null;
-                              },
-                            ]}
-                          >
-                            {text}
-                          </Typography>
-                        </Box>
-                        <Box
-                          component="span"
+                        {listName}
+                      </Typography>
+                      <Box display={'flex'} alignItems="center" columnGap="8px">
+                        <Typography
                           sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            ml: 3,
-                            typography: 'body2',
+                            bgcolor: 'common.white',
+                            padding: '2px 8px',
+                            borderRadius: '0.375rem',
                           }}
                         >
-                          <CalendarMonthIcon fontSize="small" />
-                          {date}th
-                        </Box>
-                      </ListItem>
-                    );
-                  })}
-                </List>
-              </CardContent>
+                          {sortedItems.length}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  }
+                />
+                <CardContent sx={{ height: '268px', overflowY: 'scroll' }}>
+                  <List>
+                    {sortedItems.map(({ id, text, isDone, expiringDate }) => {
+                      const date = DateTime.fromFormat(expiringDate, 'dd MMM yyyy, T').toFormat(
+                        'MMM dd',
+                      );
+                      return (
+                        <ListItem
+                          key={id}
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                            rowGap: 0.5,
+                            borderBottom: '1px solid',
+                            borderBottomColor: 'grey.200',
+                          }}
+                        >
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Checkbox edge="start" checked={isDone} disableRipple />
+                            <Typography
+                              sx={[
+                                { typography: 'subtitle2' },
+                                () => {
+                                  return isDone ? { textDecoration: 'line-through' } : null;
+                                },
+                              ]}
+                            >
+                              {text}
+                            </Typography>
+                          </Box>
+                          <Box
+                            component="span"
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              ml: 3,
+                              typography: 'body2',
+                            }}
+                          >
+                            <CalendarMonthIcon fontSize="small" />
+                            {date}th
+                          </Box>
+                        </ListItem>
+                      );
+                    })}
+                  </List>
+                </CardContent>
+              </CardActionArea>
             </Card>
           </Grid>
         );

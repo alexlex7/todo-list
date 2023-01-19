@@ -1,21 +1,8 @@
-// export interface Todo {
-//   id: number;
-//   text: string;
-//   isDone: boolean;
-//   created: string;
-//   expiringDate: string;
-// }
-
-// export interface TodoLists {
-//   id: number;
-//   listName: string;
-//   items: Todo[];
-// }
-
 export const todoLists = [
   {
     id: 1,
     listName: 'Upcoming',
+    expiringDate: '29 Jan 2023, 19:42',
     items: [
       {
         id: 1,

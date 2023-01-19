@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { ListItem, Checkbox, ListItemButton, ListItemText, Box } from '@mui/material';
+import { ListItem, Checkbox, ListItemText, Box } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import { Todo } from '../../interfaces';
@@ -27,7 +27,7 @@ export default function TodoListItem({ item, listName }: Props) {
       }}
     >
       <Checkbox edge="start" checked={isDone} disableRipple />
-      <ListItemButton disableGutters sx={{ display: 'flex', pr: 1 }}>
+      <Box sx={{ display: 'flex', pr: 1, flexBasis: '100%', alignItems: 'center' }}>
         <ListItemText
           primary={text}
           sx={[
@@ -50,7 +50,7 @@ export default function TodoListItem({ item, listName }: Props) {
           <CalendarMonthIcon fontSize="small" />
           {date}th
         </Box>
-      </ListItemButton>
+      </Box>
     </ListItem>
   );
 }
