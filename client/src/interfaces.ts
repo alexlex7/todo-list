@@ -1,4 +1,5 @@
 export interface Todo {
+  _id: string;
   id: number;
   text: string;
   isDone: boolean;
@@ -7,9 +8,9 @@ export interface Todo {
 }
 
 export interface TodoLists {
-  id: number;
+  _id: number;
   listName: string;
-  items: Todo[];
+  todos: Todo[];
 }
 
 export type ViewType = 'card' | 'list';

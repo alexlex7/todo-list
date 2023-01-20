@@ -62,6 +62,7 @@ export default function CreateTodoListPage() {
           defaultValue={DateTime.now()}
           render={({ field: { onChange, value, ref } }) => (
             <DesktopDatePicker
+              disableMaskedInput
               label="Due date"
               value={value}
               onChange={onChange}

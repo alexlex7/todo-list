@@ -3,7 +3,7 @@ export const todoLists = [
     id: 1,
     listName: 'Upcoming',
     expiringDate: '29 Jan 2023, 19:42',
-    items: [
+    todos: [
       {
         id: 1,
         text: 'Join Infinity community for help',
@@ -37,7 +37,7 @@ export const todoLists = [
   {
     id: 2,
     listName: 'To Do',
-    items: [
+    todos: [
       {
         id: 5,
         text: 'Create a few folders to make a hierarchy',
@@ -71,7 +71,7 @@ export const todoLists = [
   {
     id: 3,
     listName: 'Doing',
-    items: [
+    todos: [
       {
         id: 5,
         text: 'Create a few folders to make a hierarchy',
@@ -105,7 +105,7 @@ export const todoLists = [
   {
     id: 4,
     listName: 'Done',
-    items: [
+    todos: [
       {
         id: 5,
         text: 'Create a few folders to make a hierarchy',
@@ -139,7 +139,7 @@ export const todoLists = [
   {
     id: 5,
     listName: 'Upcoming1',
-    items: [
+    todos: [
       {
         id: 1,
         text: 'Join Infinity community for help',
@@ -173,7 +173,7 @@ export const todoLists = [
   {
     id: 6,
     listName: 'Upcoming2',
-    items: [
+    todos: [
       {
         id: 1,
         text: 'Join Infinity community for help',
@@ -207,7 +207,7 @@ export const todoLists = [
   {
     id: 7,
     listName: 'Upcoming3',
-    items: [
+    todos: [
       {
         id: 1,
         text: 'Join Infinity community for help',
@@ -241,7 +241,7 @@ export const todoLists = [
   {
     id: 8,
     listName: 'Upcoming4',
-    items: [
+    todos: [
       {
         id: 1,
         text: 'Join Infinity community for help',
@@ -275,7 +275,7 @@ export const todoLists = [
   {
     id: 9,
     listName: 'Upcoming5',
-    items: [
+    todos: [
       {
         id: 1,
         text: 'Join Infinity community for help',
@@ -309,7 +309,7 @@ export const todoLists = [
   {
     id: 10,
     listName: 'Upcoming6',
-    items: [
+    todos: [
       {
         id: 1,
         text: 'Join Infinity community for help',
@@ -343,7 +343,7 @@ export const todoLists = [
   {
     id: 11,
     listName: 'Upcoming7',
-    items: [
+    todos: [
       {
         id: 1,
         text: 'Join Infinity community for help',

@@ -27,15 +27,15 @@ export default function CardView({ todoLists }: Props) {
 
   return (
     <Grid container spacing={4} p={4}>
-      {todoLists.map(({ items, id, listName }) => {
-        const sortedItems = [...items].sort((a, b) => {
+      {todoLists.map(({ todos, _id, listName }) => {
+        const sortedItems = [...todos].sort((a, b) => {
           return a.isDone === b.isDone ? 0 : a.isDone ? 1 : -1;
         });
 
         return (
-          <Grid item xs={12} sm={6} md={4} key={id}>
+          <Grid item xs={12} sm={6} md={4} key={_id}>
             <Card variant="outlined" sx={{ height: '330px' }}>
-              <CardActionArea onClick={() => handleRedirect(id)}>
+              <CardActionArea onClick={() => handleRedirect(_id)}>
                 <CardHeader
                   sx={{ bgcolor: 'grey.200' }}
                   title={
