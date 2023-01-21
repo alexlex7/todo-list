@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-export async function getTodoLists() {
+export async function getTodoLists(limit: number, offset: number) {
+  const searchQuery = offset > 0 ? `?limit=${limit}&offset=${offset}` : `?limit=${limit}`;
   try {
-    const data = await axios.get('http://localhost:3000/todolists');
+    const { data } = await axios.get(`http://localhost:3000/todolists${searchQuery}`);
     return data;
   } catch (error) {
     console.log(error);

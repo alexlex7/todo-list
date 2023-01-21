@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 import { CreateTodolistDto } from './dto/create-todolist.dto/create-todolist.dto';
 import { UpdateTodolistDto } from './dto/update-todolist.dto/update-todolist.dto';
 import { TodolistsService } from './todolists.service';
@@ -16,8 +18,8 @@ export class TodolistsController {
   constructor(private readonly todoListsService: TodolistsService) {}
 
   @Get()
-  findAll() {
-    return this.todoListsService.findAll();
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.todoListsService.findAll(paginationQuery);
   }
 
   @Get(':id')

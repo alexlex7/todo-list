@@ -52,7 +52,7 @@ export default function TodoListPage() {
       <Container disableGutters>
         {view === 'list' && <ListView todoLists={todoLists} />}
         {view === 'card' && <CardView todoLists={todoLists} />}
-        <TodoPagination setTodos={handleSetTodos} pageSize={itemsOnPage} />
+        <TodoPagination setTodos={handleSetTodos} limit={itemsOnPage} />
       </Container>
     </>
   );
