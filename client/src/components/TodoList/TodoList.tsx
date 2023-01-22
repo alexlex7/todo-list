@@ -44,7 +44,7 @@ export default function TodoList({ listName, items, id }: Props) {
     >
       <Collapse in={open} timeout="auto" unmountOnExit>
         {sortedItems.map((item) => (
-          <TodoListItem key={item.id} item={item} listName={listName} />
+          <TodoListItem key={item._id} item={item} listName={listName} />
         ))}
       </Collapse>
     </List>

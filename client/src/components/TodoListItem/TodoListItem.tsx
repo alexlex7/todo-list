@@ -10,11 +10,11 @@ interface Props {
 }
 
 export default function TodoListItem({ item, listName }: Props) {
-  const { id, isDone, text, expiringDate } = item;
-  const date = DateTime.fromFormat(expiringDate, 'dd MMM yyyy, T').toFormat('MMM dd');
+  const { _id, isDone, text, expiringDate } = item;
+  const date = DateTime.fromISO(expiringDate).toFormat('MMM dd');
   return (
     <ListItem
-      key={id}
+      key={_id}
       disablePadding
       sx={{
         border: '1px solid',

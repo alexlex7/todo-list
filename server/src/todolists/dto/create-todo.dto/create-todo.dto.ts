@@ -4,12 +4,9 @@ export class CreateTodoDto {
   @IsString()
   text: string;
 
-  @IsBoolean()
-  isDone: boolean;
+  // @IsBoolean()
+  // isDone: boolean;
 
-  @IsString()
-  created: string;
-
-  @IsString()
-  expiringDate: string;
+  // @IsString()
+  // expiringDate: string;
 }

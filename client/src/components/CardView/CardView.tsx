@@ -70,13 +70,11 @@ export default function CardView({ todoLists }: Props) {
                 />
                 <CardContent sx={{ height: '268px', overflowY: 'scroll' }}>
                   <List>
-                    {sortedItems.map(({ id, text, isDone, expiringDate }) => {
-                      const date = DateTime.fromFormat(expiringDate, 'dd MMM yyyy, T').toFormat(
-                        'MMM dd',
-                      );
+                    {sortedItems.map(({ _id, text, isDone, expiringDate }) => {
+                      const date = DateTime.fromISO(expiringDate).toFormat('MMM dd');
                       return (
                         <ListItem
-                          key={id}
+                          key={_id}
                           sx={{
                             display: 'flex',
                             flexDirection: 'column',
