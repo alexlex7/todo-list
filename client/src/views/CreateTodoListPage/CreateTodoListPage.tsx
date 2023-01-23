@@ -79,7 +79,12 @@ export default function CreateTodoListPage() {
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="calc(100vh - 48px)">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="calc(100vh - 48px - 56px)"
+    >
       <Box
         component="form"
         p={6}
@@ -131,7 +136,7 @@ export default function CreateTodoListPage() {
               <Box key={index} display="flex">
                 <TextField label="task" disabled value={task.text} size="small" fullWidth />
                 <IconButton
-                  onClick={(e) => {
+                  onClick={() => {
                     handleRemoveTask(index);
                   }}
                 >

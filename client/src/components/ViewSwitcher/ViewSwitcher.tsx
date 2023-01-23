@@ -9,11 +9,10 @@ import {
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { GridView, List } from '@mui/icons-material';
-import { ViewType } from '../../interfaces';
 
 interface Props {
   view: string;
-  handleChangeView(event: React.MouseEvent<HTMLElement, MouseEvent>, nextView: ViewType): void;
+  handleChangeView(viewType: string): void;
   itemsOnPage: string;
   setItemsOnPage(event: SelectChangeEvent<string>): void;
 }
@@ -46,7 +45,9 @@ export default function ViewSwitcher({
         orientation="horizontal"
         value={view}
         exclusive
-        onChange={handleChangeView}
+        onChange={(e, value) => {
+          handleChangeView(value);
+        }}
         size="small"
         color="primary"
         sx={{ border: 'none' }}

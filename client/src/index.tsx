@@ -10,6 +10,7 @@ import './index.css';
 import { CssBaseline } from '@mui/material';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { SettingsProvider } from './context/settingsContext';
 
 const theme = createTheme({
   palette: {
@@ -26,12 +27,6 @@ const theme = createTheme({
     text: {
       primary: '#222222',
     },
-    // action: {
-    //   active: '#001E3C',
-    // },
-    // success: {
-    //   dark: '#009688',
-    // },
   },
   typography: {
     body2: {
@@ -46,8 +41,10 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterLuxon}>
-        <CssBaseline />
-        <App />
+        <SettingsProvider>
+          <CssBaseline />
+          <App />
+        </SettingsProvider>
       </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>,
