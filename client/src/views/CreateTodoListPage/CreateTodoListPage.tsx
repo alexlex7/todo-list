@@ -78,6 +78,10 @@ export default function CreateTodoListPage() {
     localStorageApi.save('tasks', tasksCopy);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.code === 'Enter') e.preventDefault();
+  };
+
   return (
     <Box
       display="flex"
@@ -93,6 +97,7 @@ export default function CreateTodoListPage() {
         rowGap={3}
         minWidth="500px"
         onSubmit={handleSubmit(onSubmit)}
+        onKeyDown={handleKeyDown}
         sx={{
           borderRadius: '20px',
           boxShadow:
@@ -158,6 +163,11 @@ export default function CreateTodoListPage() {
               error={invalid}
               helperText={error?.message}
               size="small"
+              onKeyDown={(e) => {
+                if (e.code === 'Enter') {
+                  handleAddTask();
+                }
+              }}
             />
           )}
         />
