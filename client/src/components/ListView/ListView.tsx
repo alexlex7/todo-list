@@ -18,9 +18,9 @@ export default function ListView({ todoLists }: Props) {
           maxWidth: '630px',
         }}
       >
-        {todoLists.map(({ _id, listName, todos }) => (
+        {todoLists.map(({ _id, listName, todos, expiringDate }) => (
           <ListItem key={_id}>
-            <TodoList listName={listName} items={todos} id={_id} />
+            <TodoList listName={listName} items={todos} id={_id} expiringDate={expiringDate} />
           </ListItem>
         ))}
       </List>

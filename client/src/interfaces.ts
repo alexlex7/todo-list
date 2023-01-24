@@ -9,6 +9,7 @@ export interface Todo {
 export interface TodoLists {
   _id: number;
   listName: string;
+  expiringDate: string;
   todos: Todo[];
 }
 
