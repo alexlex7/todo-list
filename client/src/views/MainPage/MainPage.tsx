@@ -1,4 +1,4 @@
-import { Outlet, useLocation, Link as RouterLink } from 'react-router-dom';
+import { Outlet, useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useSettings } from '../../context/settingsContext';
 import Header from '../../components/Header/Header';
 import { Box, Button, Container, Typography } from '@mui/material';
@@ -8,6 +8,11 @@ import ViewSwitcher from '../../components/ViewSwitcher/ViewSwitcher';
 export default function MainPage() {
   const location = useLocation();
   const settings = useSettings();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(-1);
+  };
 
   return (
     <Box sx={{ minHeight: '100vh' }}>
@@ -29,7 +34,14 @@ export default function MainPage() {
             minHeight: '56px',
           }}
         >
-          <Breadcrumbs />
+          <Box display={'flex'} columnGap={2} alignItems={'center'}>
+            {location.pathname !== '/' && (
+              <Button variant="outlined" color="secondary" onClick={handleClick}>
+                Previous page
+              </Button>
+            )}
+            <Breadcrumbs />
+          </Box>
           <Box>
             {location.pathname === '/todolist' && (
               <Box display="flex" alignItems="center">

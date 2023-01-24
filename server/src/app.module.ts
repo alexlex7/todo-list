@@ -10,6 +10,7 @@ import {
   TodoSchema,
 } from './todolists/entities/todolist.entity';
 import { TodolistsService } from './todolists/todolists.service';
+import { SettingsController } from './settings/settings.controller';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { TodolistsService } from './todolists/todolists.service';
       { name: Todo.name, schema: TodoSchema },
     ]),
   ],
-  controllers: [AppController, TodolistsController],
+  controllers: [AppController, TodolistsController, SettingsController],
   providers: [AppService, TodolistsService],
 })
 export class AppModule {}
