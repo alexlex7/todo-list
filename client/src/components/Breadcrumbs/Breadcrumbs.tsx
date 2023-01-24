@@ -1,4 +1,4 @@
-import { Link, Breadcrumbs as MUIBreadcrumbs } from '@mui/material';
+import { Link, Breadcrumbs as MUIBreadcrumbs, Box } from '@mui/material';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 
 export function Breadcrumbs() {
@@ -9,27 +9,29 @@ export function Breadcrumbs() {
   return (
     <div>
       <MUIBreadcrumbs>
-        <Link
-          component={RouterLink}
-          to="/"
-          underline="none"
-          sx={{
-            color: 'text.primary',
-          }}
-        >
-          Home page
-        </Link>
+        {pathnames.length === 0 ? (
+          <Box component={'span'} color="#47beff">
+            Home page
+          </Box>
+        ) : (
+          <Link component={RouterLink} to="/" underline="none" sx={{ color: 'grey.900' }}>
+            Home page
+          </Link>
+        )}
         {pathnames.length > 0 &&
-          pathnames.map((item, index) => {
-            return (
+          pathnames.map((item, index, arr) => {
+            const isCurrent = arr.length - 1 === index;
+            return isCurrent ? (
+              <Box key={index} component={'span'} color="#47beff">
+                {item}
+              </Box>
+            ) : (
               <Link
                 key={index}
                 component={RouterLink}
                 to={'/' + item}
                 underline="none"
-                sx={{
-                  color: 'text.primary',
-                }}
+                sx={{ color: 'grey.900' }}
               >
                 {item}
               </Link>

@@ -5,6 +5,10 @@ import NotFoundPage from './views/NotFoundPage/NotFoundPage';
 import ShowTodo from './views/ShowTodo/ShowTodo';
 import TodoListPage from './views/TodoListPage/TodoListPage';
 
+interface IData {
+  threadName: string;
+}
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -14,6 +18,9 @@ const router = createBrowserRouter([
       {
         path: 'todolist',
         element: <TodoListPage />,
+        handle: {
+          crumb: (data: IData) => <span>{data.threadName}</span>,
+        },
       },
       {
         path: 'todolist/:id',

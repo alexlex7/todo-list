@@ -53,7 +53,7 @@ export default function CreateTodoListPage() {
     };
 
     const response = await createTodoList(todo);
-    if (response?.statusText === 'created') {
+    if (response?.statusText === 'Created') {
       localStorageApi.remove('createTodoForm');
       localStorageApi.remove('tasks');
       reset();
@@ -66,7 +66,7 @@ export default function CreateTodoListPage() {
     if (value.length > 0) {
       const updatedTasks = [...tasks, { text: value }];
       setTasks(updatedTasks);
-      reset({ task: '' });
+      reset((formValues) => ({ ...formValues, task: '' }));
       localStorageApi.save('tasks', updatedTasks);
     }
   };
