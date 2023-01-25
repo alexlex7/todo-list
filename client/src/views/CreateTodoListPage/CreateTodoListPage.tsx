@@ -1,9 +1,14 @@
+import { useState, useEffect } from 'react';
 import { object, string, date } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, IconButton } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { DateTime } from 'luxon';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import useFormPersist from 'react-hook-form-persist';
+import localStorageApi from '../../services/localStorageApi';
+import { createTodoList } from '../../services/todoApi';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface FormFields {
   listName: string;
@@ -11,21 +16,75 @@ interface FormFields {
   task: string;
 }
 
+interface Task {
+  text: string;
+}
+
 const schema = object({
   listName: string().required(),
-  expiringDate: date().min(DateTime.now()),
+  expiringDate: date(),
   task: string().required(),
 });
 
 export default function CreateTodoListPage() {
-  const { handleSubmit, control } = useForm<FormFields>({ resolver: yupResolver(schema) });
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const { handleSubmit, control, watch, setValue, reset, getValues } = useForm<FormFields>({
+    resolver: yupResolver(schema),
+  });
 
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+  useFormPersist('createTodoForm', {
+    watch,
+    setValue,
+    storage: window.localStorage,
+  });
+
+  useEffect(() => {
+    const savedTasks = localStorageApi.load('tasks');
+    if (savedTasks) {
+      setTasks(savedTasks);
+    }
+  }, []);
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    const todo = {
+      expiringDate: data.expiringDate,
+      listName: data.listName,
+      todos: [{ text: data.task }, ...tasks],
+    };
+
+    const response = await createTodoList(todo);
+    if (response?.statusText === 'created') {
+      localStorageApi.remove('createTodoForm');
+      localStorageApi.remove('tasks');
+      reset();
+    }
+  };
+
+  const handleAddTask = () => {
+    const value = getValues('task');
+
+    if (value.length > 0) {
+      const updatedTasks = [...tasks, { text: value }];
+      setTasks(updatedTasks);
+      reset({ task: '' });
+      localStorageApi.save('tasks', updatedTasks);
+    }
+  };
+
+  const handleRemoveTask = (index: number) => {
+    const tasksCopy = [...tasks];
+    tasksCopy.splice(index, 1);
+    setTasks(tasksCopy);
+    localStorageApi.save('tasks', tasksCopy);
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="calc(100vh - 48px)">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="calc(100vh - 48px - 56px)"
+    >
       <Box
         component="form"
         p={6}
@@ -59,7 +118,6 @@ export default function CreateTodoListPage() {
         <Controller
           control={control}
           name="expiringDate"
-          defaultValue={DateTime.now()}
           render={({ field: { onChange, value, ref } }) => (
             <DesktopDatePicker
               disableMaskedInput
@@ -72,6 +130,21 @@ export default function CreateTodoListPage() {
             />
           )}
         />
+        {tasks.length > 0 &&
+          tasks.map((task, index) => {
+            return (
+              <Box key={index} display="flex">
+                <TextField label="task" disabled value={task.text} size="small" fullWidth />
+                <IconButton
+                  onClick={() => {
+                    handleRemoveTask(index);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            );
+          })}
         <Controller
           control={control}
           name="task"
@@ -89,7 +162,13 @@ export default function CreateTodoListPage() {
           )}
         />
         <Box display="flex" justifyContent="space-around">
-          <Button type="button" variant="contained" color="secondary" size="small">
+          <Button
+            type="button"
+            variant="contained"
+            color="secondary"
+            size="small"
+            onClick={handleAddTask}
+          >
             Add task
           </Button>
           <Button type="submit" variant="contained" size="small">

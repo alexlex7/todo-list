@@ -1,18 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { DateTime } from 'luxon';
 
 @Schema()
 export class Todo extends Document {
   @Prop()
   text: string;
 
-  @Prop()
+  @Prop({ default: false })
   isDone: boolean;
 
-  @Prop()
+  @Prop({ default: DateTime.now().toISO() })
   created: string;
 
-  @Prop()
+  @Prop({ default: DateTime.now().toISO() })
   expiringDate: string;
 }
 
