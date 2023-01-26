@@ -6,8 +6,8 @@ import { SettingsController } from './settings/settings.controller';
 import { TodolistsModule } from './todolists/todolists.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-// import { APP_GUARD } from '@nestjs/core';
-// import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -17,9 +17,6 @@ import { UsersModule } from './users/users.module';
     UsersModule,
   ],
   controllers: [AppController, SettingsController],
-  providers: [
-    AppService,
-    // { provide: APP_GUARD, useClass: JwtAuthGuard }
-  ],
+  providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}

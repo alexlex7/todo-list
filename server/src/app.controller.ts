@@ -3,9 +3,12 @@ import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
+import { Public } from './auth/skipAuth';
+import { CreateUserDto } from './users/dto/login-user.dto/create-user.dto';
+import { UsersService } from './users/users.service';
 
 interface User {
-  username: string;
+  email: string;
   password: string;
 }
 interface Req {
@@ -15,16 +18,27 @@ interface Req {
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private authService: AuthService,
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService,
   ) {}
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req: Req) {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Public()
+  @Post('auth/signup')
+  async signup(@Request() req: any) {
+    console.log(req.body);
+    return this.usersService.create({
+      email: req.body.email,
+      password: req.body.password,
+    });
+  }
+
   @Get('profile')
   getProfile(@Request() req: Req) {
     return req.user;
