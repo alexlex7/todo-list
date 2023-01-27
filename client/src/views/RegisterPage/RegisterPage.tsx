@@ -1,8 +1,10 @@
-import { Container, Box, TextField, Button, Typography } from '@mui/material';
+import { Container, Box, TextField, Button, Typography, Link } from '@mui/material';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { signup } from '../../services/authApi';
+import { toast } from 'react-toastify';
 
 interface FormFields {
   email: string;
@@ -16,9 +18,14 @@ const schema = object({
 
 export default function RegisterPage() {
   const { control, handleSubmit } = useForm<FormFields>({ resolver: yupResolver(schema) });
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    const response = await signup(data);
+    if (response?.status === 201) {
+      toast.success(response.data.message);
+      navigate('/login');
+    }
   };
 
   return (
@@ -63,6 +70,7 @@ export default function RegisterPage() {
                 error={invalid}
                 helperText={error?.message}
                 label="Email"
+                type="email"
                 onChange={onChange}
                 value={value}
                 inputRef={ref}
@@ -80,6 +88,7 @@ export default function RegisterPage() {
                 error={invalid}
                 helperText={error?.message}
                 label="Password"
+                type="password"
                 onChange={onChange}
                 value={value}
                 inputRef={ref}
@@ -89,13 +98,20 @@ export default function RegisterPage() {
             )}
           />
 
-          <Box display={'flex'} justifyContent="space-between" pl={2} pr={2}>
-            <Button component={Link} to="/login" variant="contained" color="secondary">
-              Log in
+          <Box
+            display={'flex'}
+            flexDirection="column"
+            alignItems={'center'}
+            rowGap={2}
+            pl={6}
+            pr={6}
+          >
+            <Button type="submit" variant="contained" size="large" fullWidth>
+              Sign up
             </Button>
-            <Button type="submit" variant="contained" size="large">
-              Sign in
-            </Button>
+            <Link component={RouterLink} to="/login" color={'secondary'}>
+              Or login, if you already have account
+            </Link>
           </Box>
         </Box>
       </Box>

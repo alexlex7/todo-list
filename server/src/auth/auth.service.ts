@@ -2,8 +2,6 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-// import { CreateUserDto } from 'src/users/dto/login-user.dto/login-user.dto';
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -13,12 +11,13 @@ export class AuthService {
 
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(email);
-
+    console.log(user);
     if (user && user.password) {
       const isMatch = await bcrypt.compare(pass, user.password);
       if (isMatch) {
-        const { password, ...result } = user;
-        return result;
+        const { _id, email } = user;
+
+        return { _id: _id.toHexString(), email };
       }
       throw new BadRequestException('Wrong password');
     }
@@ -29,10 +28,7 @@ export class AuthService {
     const payload = { email: user.email, sub: user._id };
     return {
       access_token: this.jwtService.sign(payload),
+      email: user.email,
     };
   }
-
-  // async signup(user: CreateUserDto) {
-  //   const payload = {email: user.email, password:  }
-  // }
 }

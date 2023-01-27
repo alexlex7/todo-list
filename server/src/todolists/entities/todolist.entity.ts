@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 import { DateTime } from 'luxon';
+import { User } from 'src/users/entities/user.entity';
 
 @Schema()
 export class Todo extends Document {
@@ -29,6 +30,12 @@ export class TodoList extends Document {
 
   @Prop({ type: [TodoSchema], default: [] })
   todos: Todo[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  owner: User;
 }
+
+// @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Owner' })
+// owner: Owner;
 
 export const TodoListSchema = SchemaFactory.createForClass(TodoList);

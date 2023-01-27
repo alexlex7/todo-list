@@ -5,7 +5,7 @@ import { IS_PUBLIC_KEY } from './skipAuth';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-  constructor(private reflector: Reflector) {
+  constructor(private readonly reflector: Reflector) {
     super();
   }
 
@@ -15,6 +15,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       context.getClass(),
     ]);
     if (isPublic) {
+      console.log('isPublic >>>>', isPublic);
       return true;
     }
     return super.canActivate(context);

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 import { CreateTodolistDto } from './dto/create-todolist.dto/create-todolist.dto';
 import { UpdateTodolistDto } from './dto/update-todolist.dto/update-todolist.dto';
@@ -11,14 +11,16 @@ export class TodolistsService {
   constructor(
     @InjectModel(TodoList.name) private readonly todoListModel: Model<TodoList>,
   ) {}
-  async findAll(paginationQuery: PaginationQueryDto) {
+  async findAll(paginationQuery: PaginationQueryDto, userId: string) {
+    const totalCount = await this.todoListModel
+      .countDocuments({ owner: userId })
+      .exec();
     const { limit, offset } = paginationQuery;
     const todoLists = await this.todoListModel
-      .find()
+      .find({ owner: userId })
       .skip(offset)
       .limit(limit)
       .exec();
-    const totalCount = await this.todoListModel.countDocuments();
     return { todoLists, totalCount };
   }
 
@@ -30,8 +32,11 @@ export class TodolistsService {
     return todoList;
   }
 
-  async create(createTodoListDto: CreateTodolistDto) {
-    const todoList = new this.todoListModel(createTodoListDto);
+  async create(createTodoListDto: CreateTodolistDto, userId: string) {
+    const todoList = new this.todoListModel({
+      ...createTodoListDto,
+      owner: userId,
+    });
     return await todoList.save();
   }
 

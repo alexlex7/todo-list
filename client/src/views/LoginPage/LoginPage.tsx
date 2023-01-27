@@ -1,8 +1,13 @@
-import { Container, Box, TextField, Button, Typography } from '@mui/material';
+import { Container, Box, TextField, Button, Typography, Link } from '@mui/material';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { object, string } from 'yup';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import { login, token } from '../../services/authApi';
+import { useAuthContext } from '../../context/authContext';
+import { useEffect } from 'react';
+import localStorageApi from '../../services/localStorageApi';
+import { toast } from 'react-toastify';
 
 interface FormFields {
   email: string;
@@ -14,11 +19,14 @@ const schema = object({
   password: string().required(),
 });
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const { control, handleSubmit } = useForm<FormFields>({ resolver: yupResolver(schema) });
+  const auth = useAuthContext();
 
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    const response = await login(data);
+    auth?.changeAuthInfo({ ...auth.authInfo, isLoggedIn: true, ...response });
+    toast.success(`Logged in as ${response?.email}`);
   };
 
   return (
@@ -63,6 +71,7 @@ export default function RegisterPage() {
                 error={invalid}
                 helperText={error?.message}
                 label="Email"
+                type={'email'}
                 onChange={onChange}
                 value={value}
                 inputRef={ref}
@@ -80,6 +89,7 @@ export default function RegisterPage() {
                 error={invalid}
                 helperText={error?.message}
                 label="Password"
+                type="password"
                 onChange={onChange}
                 value={value}
                 inputRef={ref}
@@ -89,13 +99,21 @@ export default function RegisterPage() {
             )}
           />
 
-          <Box display={'flex'} justifyContent="space-between" pl={2} pr={2}>
-            <Button component={Link} to="/registration" variant="contained" color="secondary">
-              Sign in
-            </Button>
-            <Button type="submit" variant="contained" size="large">
+          <Box
+            display={'flex'}
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            rowGap={2}
+            pl={6}
+            pr={6}
+          >
+            <Button type="submit" variant="contained" size="large" fullWidth>
               Log in
             </Button>
+            <Link component={RouterLink} to="/registration" color={'secondary'}>
+              Or sign up, if you don't have account
+            </Link>
           </Box>
         </Box>
       </Box>

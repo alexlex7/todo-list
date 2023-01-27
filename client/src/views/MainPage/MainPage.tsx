@@ -1,17 +1,38 @@
+import { useEffect } from 'react';
 import { Outlet, useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useSettings } from '../../context/settingsContext';
 import Header from '../../components/Header/Header';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Container, IconButton, Typography } from '@mui/material';
 import { Breadcrumbs } from '../../components/Breadcrumbs/Breadcrumbs';
 import ViewSwitcher from '../../components/ViewSwitcher/ViewSwitcher';
+import localStorageApi from '../../services/localStorageApi';
+import { token } from '../../services/authApi';
+import { useAuthContext } from '../../context/authContext';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { ToastContainer } from 'react-toastify';
 
 export default function MainPage() {
   const location = useLocation();
   const settings = useSettings();
   const navigate = useNavigate();
+  const auth = useAuthContext();
+
+  useEffect(() => {
+    const authInfo = localStorageApi.load('authInfo');
+    if (authInfo) {
+      token.set(authInfo.access_token);
+      auth?.changeAuthInfo({ ...authInfo, isLoggedIn: true });
+    }
+  }, []);
 
   const handleClick = () => {
     navigate(-1);
+  };
+
+  const handleLogOut = () => {
+    token.unset();
+    localStorageApi.remove('authInfo');
+    auth?.resetAuthInfoToDefault();
   };
 
   return (
@@ -59,6 +80,14 @@ export default function MainPage() {
                       itemsOnPage={String(settings.itemsOnPage)}
                     />
                   )}
+                  {auth?.authInfo.email && (
+                    <Box display="flex" columnGap={1} alignItems="center" ml={1}>
+                      <Typography variant="caption">{auth.authInfo.email}</Typography>
+                      <IconButton onClick={handleLogOut}>
+                        <LogoutIcon />
+                      </IconButton>
+                    </Box>
+                  )}
                 </Box>
               )}
             </Box>
@@ -86,6 +115,7 @@ export default function MainPage() {
         </Box>
       )}
       <Outlet />
+      <ToastContainer />
     </Box>
   );
 }

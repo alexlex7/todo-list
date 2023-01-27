@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import PrivateRoute from './PrivatRoute';
+import PublicRoute from './PublicRoute';
 import CreateTodoListPage from './views/CreateTodoListPage/CreateTodoListPage';
 import LoginPage from './views/LoginPage/LoginPage';
 import MainPage from './views/MainPage/MainPage';
@@ -6,10 +8,6 @@ import NotFoundPage from './views/NotFoundPage/NotFoundPage';
 import RegisterPage from './views/RegisterPage/RegisterPage';
 import ShowTodo from './views/ShowTodo/ShowTodo';
 import TodoListPage from './views/TodoListPage/TodoListPage';
-
-interface IData {
-  threadName: string;
-}
 
 const router = createBrowserRouter([
   {
@@ -19,10 +17,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'todolist',
-        element: <TodoListPage />,
-        handle: {
-          crumb: (data: IData) => <span>{data.threadName}</span>,
-        },
+        element: (
+          <PrivateRoute redirectPath="/login">
+            <TodoListPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'todolist/:id',
@@ -34,11 +33,19 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <LoginPage />,
+        element: (
+          <PublicRoute restricted redirectPath="/todolist">
+            <LoginPage />
+          </PublicRoute>
+        ),
       },
       {
         path: 'registration',
-        element: <RegisterPage />,
+        element: (
+          <PublicRoute restricted redirectPath="/todolist">
+            <RegisterPage />
+          </PublicRoute>
+        ),
       },
     ],
   },

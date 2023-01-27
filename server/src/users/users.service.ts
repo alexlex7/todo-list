@@ -1,12 +1,13 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/login-user.dto/create-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
-
-// This should be a real class/interface representing a user entity
-// export type User = any;
 
 @Injectable()
 export class UsersService {
@@ -15,11 +16,15 @@ export class UsersService {
   ) {}
 
   async findOne(email: string) {
-    return this.userModel.findOne({ email: email });
+    const user = await this.userModel.findOne({ email: email }).exec();
+    if (!user) {
+      throw new NotFoundException(`User with #${email} not exist`);
+    }
+    return user;
   }
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.findOne(createUserDto.email);
+    const user = await this.userModel.findOne({ email: createUserDto.email });
     if (user) {
       throw new BadRequestException(
         `User with email - ${createUserDto.email} already exists`,
@@ -29,11 +34,14 @@ export class UsersService {
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
 
-    const newUser = new this.userModel({
+    const newUser = await new this.userModel({
       email: createUserDto.email,
       password: hash,
-    });
+    }).save();
 
-    return await newUser.save();
+    return {
+      email: newUser.email,
+      message: `User ${newUser.email} successfully created.`,
+    };
   }
 }
