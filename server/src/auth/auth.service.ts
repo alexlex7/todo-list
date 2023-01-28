@@ -2,6 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from 'src/users/dto/login-user.dto/create-user.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -24,11 +25,11 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const payload = { email: user.email, sub: user._id };
+  async login(user: CreateUserDto) {
+    const { email } = user;
     return {
-      access_token: this.jwtService.sign(payload),
-      email: user.email,
+      access_token: this.jwtService.sign({ email }),
+      email,
     };
   }
 }

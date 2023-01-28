@@ -1,17 +1,13 @@
-import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
+import { Controller, Post, UseGuards, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { Public } from './auth/skipAuth';
 import { UsersService } from './users/users.service';
+import { ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateUserDto } from './users/dto/login-user.dto/create-user.dto';
+import { LoginResponse } from './interfaces/interfaces';
 
-interface User {
-  email: string;
-  password: string;
-}
-interface Req {
-  user: User;
-}
 @Controller('auth')
 export class AppController {
   constructor(
@@ -19,30 +15,28 @@ export class AppController {
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
   ) {}
-
+  @ApiTags('auth')
+  @ApiResponse({ status: 201, description: 'Success logged in.' })
+  @ApiResponse({ status: 404, description: 'Not found.' })
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req: Req) {
-    return this.authService.login(req.user);
-  }
-
-  @Public()
-  @Post('signup')
-  async signup(@Request() req: any) {
-    return this.usersService.create({
-      email: req.body.email,
-      password: req.body.password,
+  async login(@Body() createUserDto: CreateUserDto): Promise<LoginResponse> {
+    return this.authService.login({
+      email: createUserDto.email,
+      password: createUserDto.password,
     });
   }
 
-  @Get('profile')
-  getProfile(@Request() req: Req) {
-    return req.user;
-  }
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @ApiTags('auth')
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiCreatedResponse({ description: 'New user created' })
+  @Public()
+  @Post('signup')
+  async signup(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create({
+      email: createUserDto.email,
+      password: createUserDto.password,
+    });
   }
 }
