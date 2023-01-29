@@ -1,4 +1,9 @@
-export interface LoginResponse {
+import { Request } from 'express';
+
+export interface IUser {
+  _id: string;
   email: string;
-  access_token: string;
+}
+export interface UserRequest extends Request {
+  user: IUser;
 }
