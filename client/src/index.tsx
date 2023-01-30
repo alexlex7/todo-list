@@ -2,15 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import App from './App';
+import { CssBaseline } from '@mui/material';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { SettingsProvider } from './context/settingsContext';
+import { AuthProvider } from './context/authContext';
+import 'react-toastify/dist/ReactToastify.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './index.css';
-import { CssBaseline } from '@mui/material';
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { SettingsProvider } from './context/settingsContext';
 
 const theme = createTheme({
   palette: {
@@ -41,10 +43,12 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterLuxon}>
-        <SettingsProvider>
-          <CssBaseline />
-          <App />
-        </SettingsProvider>
+        <AuthProvider>
+          <SettingsProvider>
+            <CssBaseline />
+            <App />
+          </SettingsProvider>
+        </AuthProvider>
       </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>,

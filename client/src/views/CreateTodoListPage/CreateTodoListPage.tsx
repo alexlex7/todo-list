@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 interface FormFields {
   listName: string;
-  expiringDate: DateTime;
+  expiringDate: string;
   task: string;
 }
 
@@ -22,8 +22,8 @@ interface Task {
 
 const schema = object({
   listName: string().required(),
-  expiringDate: date(),
-  task: string().required(),
+  expiringDate: date().required(),
+  task: string(),
 });
 
 export default function CreateTodoListPage() {
@@ -46,14 +46,16 @@ export default function CreateTodoListPage() {
   }, []);
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    console.log('submit');
     const todo = {
       expiringDate: data.expiringDate,
       listName: data.listName,
-      todos: [{ text: data.task }, ...tasks],
+      todos: data.task ? [{ text: data.task }, ...tasks] : [...tasks],
     };
 
     const response = await createTodoList(todo);
-    if (response?.statusText === 'created') {
+    if (response?.statusText === 'Created') {
+      setTasks([]);
       localStorageApi.remove('createTodoForm');
       localStorageApi.remove('tasks');
       reset();
@@ -66,7 +68,7 @@ export default function CreateTodoListPage() {
     if (value.length > 0) {
       const updatedTasks = [...tasks, { text: value }];
       setTasks(updatedTasks);
-      reset({ task: '' });
+      reset((formValues) => ({ ...formValues, task: '' }));
       localStorageApi.save('tasks', updatedTasks);
     }
   };
@@ -76,6 +78,10 @@ export default function CreateTodoListPage() {
     tasksCopy.splice(index, 1);
     setTasks(tasksCopy);
     localStorageApi.save('tasks', tasksCopy);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.code === 'Enter') e.preventDefault();
   };
 
   return (
@@ -93,6 +99,7 @@ export default function CreateTodoListPage() {
         rowGap={3}
         minWidth="500px"
         onSubmit={handleSubmit(onSubmit)}
+        onKeyDown={handleKeyDown}
         sx={{
           borderRadius: '20px',
           boxShadow:
@@ -152,12 +159,18 @@ export default function CreateTodoListPage() {
           render={({ field: { onChange, value, ref }, fieldState: { error, invalid } }) => (
             <TextField
               label="task"
+              required={tasks.length === 0 ? true : false}
               value={value}
               onChange={onChange}
               inputRef={ref}
               error={invalid}
               helperText={error?.message}
               size="small"
+              onKeyDown={(e) => {
+                if (e.code === 'Enter') {
+                  handleAddTask();
+                }
+              }}
             />
           )}
         />

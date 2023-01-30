@@ -24,5 +24,16 @@ export default function ShowTodo() {
     })();
   }, [id]);
 
-  return <>{todoItem && <ListView todoLists={[todoItem]} />}</>;
+  return (
+    <>
+      {todoItem && (
+        <ListView
+          todoLists={[todoItem]}
+          removeTodo={(id: string) => {
+            console.log(id);
+          }}
+        />
+      )}
+    </>
+  );
 }

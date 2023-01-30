@@ -4,9 +4,10 @@ import { TodoLists } from '../../interfaces';
 
 interface Props {
   todoLists: TodoLists[];
+  removeTodo: (id: string) => void;
 }
 
-export default function ListView({ todoLists }: Props) {
+export default function ListView({ todoLists, removeTodo }: Props) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <List
@@ -18,9 +19,15 @@ export default function ListView({ todoLists }: Props) {
           maxWidth: '630px',
         }}
       >
-        {todoLists.map(({ _id, listName, todos }) => (
+        {todoLists.map(({ _id, listName, todos, expiringDate }) => (
           <ListItem key={_id}>
-            <TodoList listName={listName} items={todos} id={_id} />
+            <TodoList
+              listName={listName}
+              items={todos}
+              id={_id}
+              expiringDate={expiringDate}
+              removeTodo={removeTodo}
+            />
           </ListItem>
         ))}
       </List>

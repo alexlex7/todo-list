@@ -1,6 +1,4 @@
-import { DateTime } from 'luxon';
 import { ListItem, Checkbox, ListItemText, Box } from '@mui/material';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import { Todo } from '../../interfaces';
 
@@ -10,8 +8,7 @@ interface Props {
 }
 
 export default function TodoListItem({ item, listName }: Props) {
-  const { _id, isDone, text, expiringDate } = item;
-  const date = DateTime.fromISO(expiringDate).toFormat('MMM dd');
+  const { _id, isDone, text } = item;
   return (
     <ListItem
       key={_id}
@@ -45,10 +42,6 @@ export default function TodoListItem({ item, listName }: Props) {
           sx={{ bgcolor: 'secondary.light', borderRadius: '11px', padding: '3px 7px' }}
         >
           {listName}
-        </Box>
-        <Box component="span" sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
-          <CalendarMonthIcon fontSize="small" />
-          {date}th
         </Box>
       </Box>
     </ListItem>

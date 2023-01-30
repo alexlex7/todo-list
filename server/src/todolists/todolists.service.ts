@@ -11,44 +11,58 @@ export class TodolistsService {
   constructor(
     @InjectModel(TodoList.name) private readonly todoListModel: Model<TodoList>,
   ) {}
-  async findAll(paginationQuery: PaginationQueryDto) {
+  async findAll(paginationQuery: PaginationQueryDto, userId: string) {
+    const totalCount = await this.todoListModel
+      .countDocuments({ owner: userId })
+      .exec();
     const { limit, offset } = paginationQuery;
     const todoLists = await this.todoListModel
-      .find()
+      .find({ owner: userId })
       .skip(offset)
       .limit(limit)
       .exec();
-    const totalCount = await this.todoListModel.countDocuments();
     return { todoLists, totalCount };
   }
 
   async findOne(id: string) {
-    const todoList = await this.todoListModel.findOne({ _id: id }).exec();
-    if (!todoList) {
+    try {
+      const todoList = await this.todoListModel.findOne({ _id: id }).exec();
+      return todoList;
+    } catch (error) {
       throw new NotFoundException(`Todolist #${id} not found`);
     }
-    return todoList;
   }
 
-  async create(createTodoListDto: CreateTodolistDto) {
-    const todoList = new this.todoListModel(createTodoListDto);
+  async create(createTodoListDto: CreateTodolistDto, userId: string) {
+    console.log(userId);
+    const todoList = new this.todoListModel({
+      ...createTodoListDto,
+      owner: userId,
+    });
     return await todoList.save();
   }
 
   async update(id: string, updateTodoListDto: UpdateTodolistDto) {
-    const existingTodoList = this.todoListModel
+    const existingTodoList = await this.todoListModel
       .findOneAndUpdate({ _id: id }, { $set: updateTodoListDto }, { new: true })
       .exec();
 
     if (!existingTodoList) {
       throw new NotFoundException(`Todo list with id - ${id} not found`);
     }
-
+    console.log(existingTodoList);
     return existingTodoList;
   }
 
   async remove(id: string) {
-    const todoList = await this.todoListModel.findOne({ _id: id });
-    return todoList?.remove();
+    try {
+      const todoList = await this.todoListModel.findOne({ _id: id });
+      if (!todoList) {
+        throw new NotFoundException(`Todo list with id - ${id} not found`);
+      }
+      return todoList?.remove();
+    } catch (error) {
+      throw new NotFoundException(`Todo list with id - ${id} not found`);
+    }
   }
 }

@@ -1,7 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import PrivateRoute from './PrivatRoute';
+import PublicRoute from './PublicRoute';
 import CreateTodoListPage from './views/CreateTodoListPage/CreateTodoListPage';
+import EditTodoListPage from './views/EditTodoListPage/EditTodoListPage';
+import LoginPage from './views/LoginPage/LoginPage';
 import MainPage from './views/MainPage/MainPage';
 import NotFoundPage from './views/NotFoundPage/NotFoundPage';
+import RegisterPage from './views/RegisterPage/RegisterPage';
 import ShowTodo from './views/ShowTodo/ShowTodo';
 import TodoListPage from './views/TodoListPage/TodoListPage';
 
@@ -13,7 +18,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'todolist',
-        element: <TodoListPage />,
+        element: (
+          <PrivateRoute redirectPath="/login">
+            <TodoListPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: 'todolist/:id',
@@ -22,6 +31,26 @@ const router = createBrowserRouter([
       {
         path: 'todolist/create',
         element: <CreateTodoListPage />,
+      },
+      {
+        path: 'todolist/:id/edit',
+        element: <EditTodoListPage />,
+      },
+      {
+        path: 'login',
+        element: (
+          <PublicRoute restricted redirectPath="/todolist">
+            <LoginPage />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: 'registration',
+        element: (
+          <PublicRoute restricted redirectPath="/login">
+            <RegisterPage />
+          </PublicRoute>
+        ),
       },
     ],
   },

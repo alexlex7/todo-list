@@ -1,12 +1,8 @@
-import { IsString, IsBoolean } from 'class-validator';
+import { IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTodoDto {
   @IsString()
+  @ApiProperty()
   text: string;
-
-  // @IsBoolean()
-  // isDone: boolean;
-
-  // @IsString()
-  // expiringDate: string;
 }

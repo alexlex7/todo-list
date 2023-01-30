@@ -30,3 +30,14 @@ export async function createTodoList(todoList: CreateTodoLists) {
     console.log(error);
   }
 }
+
+export async function removeTodoList(id: string) {
+  try {
+    const response = await axios.delete(`/todolists/${id}`);
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error.message);
+    }
+  }
+}
