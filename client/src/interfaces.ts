@@ -7,10 +7,12 @@ export interface Todo {
 }
 
 export interface TodoLists {
-  _id: number;
+  _id: string;
   listName: string;
   expiringDate: string;
   todos: Todo[];
+  owner: string;
+  public: boolean;
 }
 
 export interface CreateTodo {

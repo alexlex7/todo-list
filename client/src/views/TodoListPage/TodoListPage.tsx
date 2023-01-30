@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Container } from '@mui/material';
 import ListView from '../../components/ListView/ListView';
 import CardView from '../../components/CardView/CardView';
@@ -16,12 +16,25 @@ export default function TodoListPage() {
     },
     [setTodoLists],
   );
+
+  const handleRemoveTodo = (id: string) => {
+    const todos = todoLists.filter((item) => {
+      console.log(item._id);
+      return item._id !== id;
+    });
+    setTodoLists(todos);
+  };
+
   return (
     <>
       {settings && (
         <Container disableGutters>
-          {settings.view === 'list' && <ListView todoLists={todoLists} />}
-          {settings.view === 'card' && <CardView todoLists={todoLists} />}
+          {settings.view === 'list' && (
+            <ListView todoLists={todoLists} removeTodo={handleRemoveTodo} />
+          )}
+          {settings.view === 'card' && (
+            <CardView todoLists={todoLists} removeTodo={handleRemoveTodo} />
+          )}
           <TodoPagination setTodos={handleSetTodos} limit={settings.itemsOnPage} />
         </Container>
       )}

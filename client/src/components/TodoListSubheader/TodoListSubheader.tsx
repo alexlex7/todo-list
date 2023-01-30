@@ -1,18 +1,22 @@
-import { ListSubheader, Box, Typography, Link } from '@mui/material';
+import { ListSubheader, Box, Typography, Link, Button, IconButton } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link as RouterLink, useParams } from 'react-router-dom';
+import { removeTodoList } from '../../services/todoApi';
 
 interface Props {
   handelExpand(): void;
   isOpen: boolean;
   listName: string;
   quantityOfTodo: number;
-  listId: number;
+  listId: string;
   expiringDate: string;
   isExpired: boolean;
   isExpirationDateComingUp: boolean;
   daysToExpire: number | undefined;
+  removeTodo: (id: string) => void;
 }
 
 export default function TodoListSubheader({
@@ -25,8 +29,16 @@ export default function TodoListSubheader({
   isExpirationDateComingUp,
   isExpired,
   daysToExpire,
+  removeTodo,
 }: Props) {
   const { id } = useParams();
+
+  const handleRemoveTodo = async (id: string) => {
+    const response = await removeTodoList(id);
+    if (response?.status === 200) {
+      removeTodo(id);
+    }
+  };
   return (
     <ListSubheader
       onClick={handelExpand}
@@ -100,14 +112,16 @@ export default function TodoListSubheader({
           </Box>
         </Box>
         {!id && (
-          <Link
-            p="6px 8px"
-            component={RouterLink}
-            to={`${listId}`}
-            sx={{ textDecoration: 'none', color: 'grey.900' }}
-          >
-            Open list
-          </Link>
+          <>
+            <Link
+              p="6px 8px"
+              component={RouterLink}
+              to={`${listId}`}
+              sx={{ textDecoration: 'none', color: 'grey.900' }}
+            >
+              Open list
+            </Link>
+          </>
         )}
         <Typography
           sx={{
@@ -116,8 +130,14 @@ export default function TodoListSubheader({
             borderRadius: '0.375rem',
           }}
         >
-          {isExpired ? 'Expired' : quantityOfTodo}
+          {quantityOfTodo}
         </Typography>
+        <IconButton component={RouterLink} to={`${listId}/edit`}>
+          <EditIcon />
+        </IconButton>
+        <IconButton onClick={(e) => handleRemoveTodo(listId)}>
+          <DeleteIcon />
+        </IconButton>
       </Box>
     </ListSubheader>
   );

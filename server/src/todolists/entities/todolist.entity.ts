@@ -45,6 +45,10 @@ export class TodoList extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   @ApiProperty({ type: String })
   owner: User;
+
+  @Prop({ default: false })
+  @ApiProperty({ type: Boolean, default: false })
+  public: boolean;
 }
 
 export const TodoListSchema = SchemaFactory.createForClass(TodoList);

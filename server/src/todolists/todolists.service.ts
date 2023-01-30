@@ -34,6 +34,7 @@ export class TodolistsService {
   }
 
   async create(createTodoListDto: CreateTodolistDto, userId: string) {
+    console.log(userId);
     const todoList = new this.todoListModel({
       ...createTodoListDto,
       owner: userId,

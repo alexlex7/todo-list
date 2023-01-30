@@ -90,6 +90,13 @@ export default function MainPage() {
                   )}
                 </Box>
               )}
+              {location.pathname === '/' && !auth?.authInfo.isLoggedIn && (
+                <Box>
+                  <Button component={RouterLink} to="/login" color="secondary">
+                    Log in
+                  </Button>
+                </Box>
+              )}
             </Box>
           </Container>
         </Box>

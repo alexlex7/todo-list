@@ -9,20 +9,32 @@ import {
   Grid,
   Box,
   CardHeader,
-  CardActionArea,
+  IconButton,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { TodoLists } from '../../interfaces';
+import { removeTodoList } from '../../services/todoApi';
 
 interface Props {
   todoLists: TodoLists[];
+  removeTodo: (id: string) => void;
 }
 
-export default function CardView({ todoLists }: Props) {
+export default function CardView({ todoLists, removeTodo }: Props) {
   const navigate = useNavigate();
-  function handleRedirect(listId: number) {
+  function handleRedirect(listId: string) {
     navigate(`${listId}`);
+  }
+
+  async function handleRemoveTodo(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) {
+    e.stopPropagation();
+    const response = await removeTodoList(id);
+    if (response?.status === 200) {
+      removeTodo(id);
+    }
   }
 
   return (
@@ -43,10 +55,14 @@ export default function CardView({ todoLists }: Props) {
         return (
           <Grid item xs={12} sm={6} md={4} key={_id}>
             <Card variant="outlined" sx={{ height: '330px' }}>
-              <CardActionArea onClick={() => handleRedirect(_id)}>
+              <Box onClick={() => handleRedirect(_id)}>
                 <CardHeader
                   sx={[
-                    { bgcolor: 'grey.200' },
+                    {
+                      bgcolor: 'grey.200',
+                      pl: '8px',
+                      pr: '8px',
+                    },
                     (theme) => {
                       return isExpired
                         ? {
@@ -75,7 +91,7 @@ export default function CardView({ todoLists }: Props) {
                         sx={{
                           bgcolor: 'secondary.light',
                           borderRadius: '11px',
-                          padding: '3px 7px',
+                          padding: '3px 5px',
                           textDecoration: isExpired ? 'line-through' : 'none',
                         }}
                       >
@@ -108,8 +124,22 @@ export default function CardView({ todoLists }: Props) {
                             borderRadius: '0.375rem',
                           }}
                         >
-                          {isExpired ? 'Expired' : sortedItems.length}
+                          {sortedItems.length}
                         </Typography>
+                        <Box>
+                          <IconButton
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            component={RouterLink}
+                            to={`${_id}/edit`}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton onClick={(e) => handleRemoveTodo(e, _id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Box>
                       </Box>
                     </Box>
                   }
@@ -147,7 +177,7 @@ export default function CardView({ todoLists }: Props) {
                     })}
                   </List>
                 </CardContent>
-              </CardActionArea>
+              </Box>
             </Card>
           </Grid>
         );

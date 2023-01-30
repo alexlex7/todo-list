@@ -11,29 +11,17 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
-  ApiOperation,
   ApiTags,
   ApiOkResponse,
-  ApiBadRequestResponse,
-  ApiQuery,
-  ApiCreatedResponse,
   ApiResponse,
   ApiParam,
 } from '@nestjs/swagger';
-import { Request } from 'express';
-import { type } from 'os';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
+import { UserRequest } from 'src/interfaces/interfaces';
 import { CreateTodolistDto } from './dto/create-todolist.dto/create-todolist.dto';
 import { UpdateTodolistDto } from './dto/update-todolist.dto/update-todolist.dto';
 import { TodoList } from './entities/todolist.entity';
 import { TodolistsService } from './todolists.service';
-
-interface IRequest extends Request {
-  user: {
-    userId: string;
-    email: string;
-  };
-}
 
 @ApiBearerAuth()
 @ApiTags('todolists')
@@ -52,10 +40,10 @@ export class TodolistsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   findAll(
     @Query() paginationQuery: PaginationQueryDto,
-    @Req() request: IRequest,
+    @Req() request: UserRequest,
   ) {
-    const { userId } = request.user;
-    return this.todoListsService.findAll(paginationQuery, userId);
+    const { _id } = request.user;
+    return this.todoListsService.findAll(paginationQuery, _id);
   }
 
   @Get(':id')
@@ -83,10 +71,10 @@ export class TodolistsController {
   @ApiResponse({ status: 401, description: 'Error: Unauthorized' })
   create(
     @Body() createTodoListDto: CreateTodolistDto,
-    @Req() request: IRequest,
+    @Req() request: UserRequest,
   ) {
-    const { userId } = request.user;
-    return this.todoListsService.create(createTodoListDto, userId);
+    const { _id } = request.user;
+    return this.todoListsService.create(createTodoListDto, _id);
   }
 
   @Patch(':id')

@@ -9,11 +9,12 @@ import { Todo } from '../../interfaces';
 interface Props {
   listName: string;
   items: Todo[];
-  id: number;
+  id: string;
   expiringDate: string;
+  removeTodo: (id: string) => void;
 }
 
-export default function TodoList({ listName, items, id, expiringDate }: Props) {
+export default function TodoList({ listName, items, id, expiringDate, removeTodo }: Props) {
   const [open, setOpen] = useState(true);
 
   const sortedItems = useMemo(
@@ -51,6 +52,7 @@ export default function TodoList({ listName, items, id, expiringDate }: Props) {
           isExpired={isExpired}
           isExpirationDateComingUp={isExpirationDateComingUp}
           daysToExpire={daysToExpire ? Math.ceil(daysToExpire) : undefined}
+          removeTodo={removeTodo}
         />
       }
     >
